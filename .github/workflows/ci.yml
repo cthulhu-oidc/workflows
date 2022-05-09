@@ -32,7 +32,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      github.event_name == 'workflow_call' && inputs.licenseCheck != 'false'
+      inputs.licenseCheck != 'false'
     name: Check Licenses
     runs-on: ubuntu-latest
     permissions:
@@ -64,7 +64,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      github.event_name == 'workflow_call' && inputs.lint != 'false'
+      inputs.lint != 'false'
     needs:
       - licenseCheck
     name: Lint TS-Files
@@ -97,7 +97,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      github.event_name == 'workflow_call' && inputs.logic != 'false'
+      inputs.logic != 'false'
     needs:
       - lint
     runs-on: ubuntu-latest
@@ -130,7 +130,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      github.event_name == 'workflow_call' && inputs.types != 'false' 
+      inputs.types != 'false' 
     name: Test Typescript Types
     needs:
       - logic
@@ -160,7 +160,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      github.event_name == 'workflow_call' &&  inputs.coverage != 'false' 
+       inputs.coverage != 'false' 
     name: Coverage on Node 18
     needs:
       - types
