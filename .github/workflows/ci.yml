@@ -130,7 +130,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      inputs.types != 'false' 
+      inputs.types != false
     name: Test Typescript Types
     needs:
       - logic
@@ -160,7 +160,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-       inputs.coverage != 'false' 
+       inputs.coverage != false
     name: Coverage on Node 18
     needs:
       - types
