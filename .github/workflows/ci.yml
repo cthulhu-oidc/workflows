@@ -64,7 +64,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      inputs.lint != 'false'
+      inputs.lint == true
     needs:
       - licenseCheck
     name: Lint TS-Files
@@ -97,7 +97,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      inputs.logic != 'false'
+      inputs.logic == true
     needs:
       - lint
     runs-on: ubuntu-latest
