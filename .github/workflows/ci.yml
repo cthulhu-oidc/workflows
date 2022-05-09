@@ -32,7 +32,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      inputs.licenseCheck != 'false'
+      inputs.licenseCheck == true
     name: Check Licenses
     runs-on: ubuntu-latest
     permissions:
@@ -130,7 +130,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-      inputs.types != false
+      inputs.types == true
     name: Test Typescript Types
     needs:
       - logic
@@ -160,7 +160,7 @@ jobs:
     if: >
       !failure() &&
       !cancelled() &&
-       inputs.coverage != false
+       inputs.coverage == true
     name: Coverage on Node 18
     needs:
       - types
