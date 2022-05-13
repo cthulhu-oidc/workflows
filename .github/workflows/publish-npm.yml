@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Determine Version based on input or tag
         id: version
-        run: if [ "$VERSION" != "" ]; then echo ::set-output name=version::${VERSION}; else echo ::set-output name=version::${RELEASE_TAG_NAME:1}; fi
+        run: if [ "$VERSION" != "" ]; then echo ::set-output name=version::${VERSION}; else echo ::set-output name=version::${TAG:1}; fi
         env:
           VERSION: ${{ inputs.version }}
           TAG: ${{ inputs.git-tag }}
