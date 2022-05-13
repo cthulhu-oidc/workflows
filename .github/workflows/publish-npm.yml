@@ -68,7 +68,7 @@ jobs:
           git add ./package.json
           git add ./CHANGELOG.md
           git commit -m "Release ${VERSION}"
-          git push origin HEAD:${RELEASE_BRANCH}
+          git push origin HEAD:${BRANCH}
         env:
           VERSION: ${{inputs.version}}
           BRANCH: ${{inputs.branch}}
