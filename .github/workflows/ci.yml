@@ -124,7 +124,7 @@ jobs:
             node-${{ matrix.node-version }}-
 
       - run: npm install
-      - run: npm run test:ts
+      - run: npm run test:logic
 
   types:
     if: >
