@@ -9,7 +9,7 @@ on:
         default: master
       version:
         description: 'Version'     
-        required: true
+        required: false
         type: string
       git-tag:
         description: 'git tag'
@@ -34,7 +34,22 @@ permissions:
   contents: write
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.0.2
+      - name: Check for changes
+        id: determine-version
+        run: if [ "$VERSION" != "" ]; then echo ::set-output name=version::$VERSION; else echo ::set-output name=version::${RELEASE_TAG_NAME:1}; fi
+        env:
+          VERSION: ${{ inputs.version }}
+          TAG: ${{inputs.git-tag}}
+    outputs:
+      version: ${{ steps.determine-version.outputs.version }}
+
   publish:
+    needs:
+      - version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.0.2
@@ -48,7 +63,7 @@ jobs:
           REPLACE="\1${VERSION}\2"
           sed -i -E "s/${SEARCH}/${REPLACE}/g" package.json
         env:
-          VERSION: ${{inputs.version}}
+          VERSION: ${{needs.version.outputs.version}}
 
       - name: Update CHANGELOG.md
         if: ${{ inputs.release-body != '' }}
@@ -58,7 +73,7 @@ jobs:
           git add ./CHANGELOG.md
         env:
           RELEASE_BODY: ${{github.event.release.body}}
-          VERSION: ${{inputs.version}}
+          VERSION: ${{needs.version.outputs.version}}
 
       - name: Commit and Push Changes
         if: ${{ inputs.git-tag != '' }}
@@ -70,7 +85,7 @@ jobs:
           git commit -m "Release ${VERSION}"
           git push origin HEAD:${BRANCH}
         env:
-          VERSION: ${{inputs.version}}
+          VERSION: ${{needs.version.outputs.version}}
           BRANCH: ${{inputs.branch}}
 
       - name: Update tag
