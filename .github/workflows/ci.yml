@@ -186,6 +186,12 @@ jobs:
       - run: npm install
       - run: npm run test:coverage
 
+      - name: Update Coveralls
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
   automerge:
     if: >
       github.event_name == 'pull_request' &&
