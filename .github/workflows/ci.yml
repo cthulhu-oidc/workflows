@@ -39,6 +39,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v3.0.2
+        with:
+          persist-credentials: false
 
       - name: Setup node 18
         uses: actions/setup-node@v3.1.1
@@ -73,6 +75,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v3.0.2
+        with:
+          persist-credentials: false
 
       - name: Setup node 18
         uses: actions/setup-node@v3.1.1
@@ -109,6 +113,8 @@ jobs:
         node: [14, 16, 18]
     steps:
       - uses: actions/checkout@v3.0.2
+        with:
+          persist-credentials: false
 
       - name: Setup node ${{ matrix.node }}
         uses: actions/setup-node@v3.1.1
@@ -139,6 +145,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v3.0.2
+        with:
+          persist-credentials: false
 
       - name: Setup node 18
         uses: actions/setup-node@v3.1.1
@@ -169,6 +177,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v3.0.2
+        with:
+          persist-credentials: false
 
       - name: Setup node 18
         uses: actions/setup-node@v3.1.1
@@ -188,7 +198,7 @@ jobs:
 
       - name: Update Coveralls
         if: success()
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@1.1.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
