@@ -22,11 +22,6 @@ on:
         required: false
         type: boolean
         default: false
-      coverage:
-        description: 'Code Coverage'     
-        required: false
-        type: boolean
-        default: false
 jobs:
   licenseCheck:
     if: >
@@ -164,67 +159,12 @@ jobs:
       - run: npm install
       - run: npm run test:types
 
-  coverage:
-    if: >
-      !failure() &&
-      !cancelled() &&
-       inputs.coverage == true
-    name: Coverage on Node 18
-    needs:
-      - types
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v3.0.2
-        with:
-          persist-credentials: false
-
-      - name: Setup node 18
-        uses: actions/setup-node@v3.1.1
-        with:
-          node-version: 18
-
-      - uses: actions/cache@v3.0.2
-        id: check-cache
-        with:
-          path: ~/.npm
-          key: node-18-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            node-18-
-
-      - run: npm install
-      - run: |
-          echo 'diff --git a/node_modules/istanbul-reports/lib/lcovonly/index.js b/node_modules/istanbul-reports/lib/lcovonly/index.js' > istanbul-reports+3.1.4.patch
-          echo 'index 0720e46..91a6805 100644' >> istanbul-reports+3.1.4.patch
-          echo '--- a/node_modules/istanbul-reports/lib/lcovonly/index.js' >> istanbul-reports+3.1.4.patch
-          echo '+++ b/node_modules/istanbul-reports/lib/lcovonly/index.js' >> istanbul-reports+3.1.4.patch
-          echo '@@ -30,7 +30,7 @@ class LcovOnlyReport extends ReportBase {' >> istanbul-reports+3.1.4.patch
-          echo "         const path = require('path');" >> istanbul-reports+3.1.4.patch
-          echo ' ' >> istanbul-reports+3.1.4.patch
-          echo "         writer.println('TN:');" >> istanbul-reports+3.1.4.patch
-          echo '-        const fileName = path.relative(this.projectRoot, fc.path);' >> istanbul-reports+3.1.4.patch
-          echo "+        const fileName = path.relative(this.projectRoot, fc.path.replace(/(.*file:)/, ''));" >> istanbul-reports+3.1.4.patch
-          echo "         writer.println('SF:' + fileName);" >> istanbul-reports+3.1.4.patch
-          echo ' ' >> istanbul-reports+3.1.4.patch
-          echo '         Object.values(functionMap).forEach(meta => {' >> istanbul-reports+3.1.4.patch
-
-          patch ./node_modules/istanbul-reports/lib/lcovonly/index.js < istanbul-reports+3.1.4.patch 
-        name: Patch lcov reporter
-      - run: npm run test:coverage
-
-      - name: Update Coveralls
-        if: success()
-        uses: coverallsapp/github-action@1.1.3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
   automerge:
     if: >
       github.event_name == 'pull_request' &&
       github.event.pull_request.user.login == 'dependabot[bot]'
     needs: 
-      - coverage
+      - types
     runs-on: ubuntu-latest
 
     permissions:
