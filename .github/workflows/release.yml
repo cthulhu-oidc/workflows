@@ -16,18 +16,6 @@ on:
         required: false
         type: string
         default: ''
-      npm-tag:
-        description: 'npm tag'
-        required: false
-        type: string
-        default: ''
-      release-body:
-        required: false
-        type: string
-        default: ''
-    secrets:
-      NPM_TOKEN:
-        required: true
 
 permissions:
   contents: write
