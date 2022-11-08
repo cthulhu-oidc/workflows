@@ -1,16 +1,16 @@
-name: Publish to npm
+name: Release
 on:
   workflow_call:
     inputs:
+      version:
+        description: 'Version'
+        required: false
+        type: string
       branch:
         description: 'branch'
         required: true
         type: string
         default: master
-      version:
-        description: 'Version'     
-        required: false
-        type: string
       git-tag:
         description: 'git tag'
         required: false
@@ -42,7 +42,7 @@ jobs:
         env:
           VERSION: ${{ inputs.version }}
           TAG: ${{ inputs.git-tag }}
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{inputs.branch}}
@@ -72,11 +72,3 @@ jobs:
         run: git tag -f ${TAG}
         env:
           TAG: ${{inputs.git-tag}}
-
-      - name: Publish on npm
-        run: |
-          if [ "$NPM_TAG" != "" ]; then npm publish --access public --tag $NPM_TAG; else  npm publish --access public; fi
-        env:
-          NPM_TAG: ${{inputs.npm-tag}}
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          
