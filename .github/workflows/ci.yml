@@ -33,16 +33,16 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
 
       - name: Setup node 18
-        uses: actions/setup-node@v3.1.1
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - uses: actions/cache@v3.0.2
+      - uses: actions/cache@v3
         id: check-cache
         with:
           path: ~/.npm
@@ -69,16 +69,16 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
 
       - name: Setup node 18
-        uses: actions/setup-node@v3.1.1
+        uses: actions/setup-node@v3
         with:
           node-version: 18
       
-      - uses: actions/cache@v3.0.2
+      - uses: actions/cache@v3
         id: check-cache
         with:
           path: ~/.npm
@@ -107,16 +107,16 @@ jobs:
       matrix:
         node: [14, 16, 18]
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
 
       - name: Setup node ${{ matrix.node }}
-        uses: actions/setup-node@v3.1.1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
 
-      - uses: actions/cache@v3.0.2
+      - uses: actions/cache@v3
         id: check-cache
         with:
           path: ~/.npm
@@ -139,16 +139,16 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
 
       - name: Setup node 18
-        uses: actions/setup-node@v3.1.1
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - uses: actions/cache@v3.0.2
+      - uses: actions/cache@v3
         id: check-cache
         with:
           path: ~/.npm
